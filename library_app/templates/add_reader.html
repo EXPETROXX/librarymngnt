@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Add Reader{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background:
+            linear-gradient(
+                rgba(20, 30, 48, 0.9),
+                rgba(36, 59, 85, 0.9)
+            ),
+            url("https://images.unsplash.com/photo-1512820790803-83ca734da794");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 60px auto;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.95);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #125ea9;
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <h2>Add Reader</h2>
+
+        <!-- ✅ messages handled globally in base.html -->
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="reader_name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text"
+                       name="number"
+                       pattern="[0-9]{10}"
+                       placeholder="10 digit number"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" name="address" required>
+            </div>
+
+            <button type="submit">Add Reader</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

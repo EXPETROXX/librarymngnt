@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background:
+            linear-gradient(
+                rgba(20, 30, 48, 0.9),
+                rgba(36, 59, 85, 0.9)
+            ),
+            url("https://images.unsplash.com/photo-1512820790803-83ca734da794");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 60px auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 25px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.95);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #125ea9;
+    }
+
+    .info-box {
+        background: #f5f7fa;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="container">
+
+    <!-- ADD BOOK FORM -->
+    <div class="card">
+        <h2>Add Book</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Book Title</label>
+                <input type="text" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label>Author</label>
+                <input type="text" name="author" required>
+            </div>
+
+            <div class="form-group">
+                <label>Unique Book No (UBNO)</label>
+                <input type="text" name="ubno" required>
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category" required>
+                    <option value="">-- Select Category --</option>
+                    {% for c in cat_data %}
+                        <option value="{{ c.id }}">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Total Copies</label>
+                <input type="number" name="total_copies" min="1" value="1" required>
+            </div>
+
+            <button type="submit">Add Book</button>
+        </form>
+        <!-- ✅ messages shown via base.html -->
+    </div>
+
+    <!-- INFO / RECENT BOOK -->
+    <div class="card">
+        <h3>Info</h3>
+        <div class="info-box">
+            <p>• UBNO must be unique</p>
+            <p>• Available copies will be set automatically</p>
+            <p>• Category must exist before adding a book</p>
+        </div>
+
+        {% if recent_book %}
+            <hr>
+            <h4>Recently Added</h4>
+            <p><strong>{{ recent_book.title }}</strong></p>
+            <p>Author: {{ recent_book.author }}</p>
+            <p>Copies: {{ recent_book.total_copies }}</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

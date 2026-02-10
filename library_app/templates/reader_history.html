@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Reader History{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <h3>Reader History</h3>
+        <p>
+            <strong>Name:</strong> {{ reader.name }} <br>
+            <strong>Phone:</strong> {{ reader.phone }}
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Issued On</th>
+                    <th>Returned On</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in issues %}
+                <tr>
+                    <td>{{ i.book.title }}</td>
+                    <td>{{ i.issue_date }}</td>
+                    <td>
+                        {% if i.return_date %}
+                            {{ i.return_date }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if i.is_returned %}
+                            Returned
+                        {% else %}
+                            Issued
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No history found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

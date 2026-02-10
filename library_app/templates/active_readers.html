@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block title %}Active Readers{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background:
+            linear-gradient(
+                rgba(20, 30, 48, 0.9),
+                rgba(36, 59, 85, 0.9)
+            ),
+            url("https://images.unsplash.com/photo-1512820790803-83ca734da794");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 0 15px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.95);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* ---------- TABLE ---------- */
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        min-width: 650px; /* enables horizontal scroll on mobile */
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    th {
+        background-color: #f5f7fa;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background-color: #f0f4ff;
+    }
+
+    a {
+        color: #1976d2;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .empty {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+    }
+
+    /* ---------- MOBILE ---------- */
+    @media (max-width: 600px) {
+        h3 {
+            font-size: 20px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <h3>Readers With Issued Books</h3>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Books Issued</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for r in readers %}
+                    <tr>
+                        <td>{{ r.name }}</td>
+                        <td>{{ r.phone }}</td>
+                        <td>{{ r.active_count }}</td>
+                        <td>
+                            <a href="{% url 'reader_history' r.library_id %}">
+                                View History
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty">
+                            No active readers
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

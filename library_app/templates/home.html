@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewPoint Library</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<style>
+/* ------------------------------------------------
+   GLOBAL STYLE
+------------------------------------------------ */
+:root {
+    --primary: #3d2b1f;
+    --accent: #c6a667;
+    --light-bg: #f7f5f0;
+}
+
+body {
+    background: var(--light-bg);
+    font-family: "Poppins", sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* ------------------------------------------------
+   NAVBAR
+------------------------------------------------ */
+.navbar {
+    background: var(--primary) !important;
+}
+.navbar-brand {
+    color: var(--accent) !important;
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+.nav-link {
+    color: white !important;
+    margin-left: 14px;
+    font-weight: 500;
+}
+.nav-link:hover {
+    color: var(--accent) !important;
+}
+
+/* ------------------------------------------------
+   HERO SECTION
+------------------------------------------------ */
+.hero {
+    height: 85vh;
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+                url("https://images.unsplash.com/photo-1529156069898-49953e39b3ac")
+                center/cover no-repeat;
+    color: white;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 700;
+}
+.hero p {
+    font-size: 1.2rem;
+}
+
+/* ------------------------------------------------
+   SECTION TITLE
+------------------------------------------------ */
+.section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+/* ------------------------------------------------
+   INFO CARDS (ABOUT / FEATURES / CONTACT)
+------------------------------------------------ */
+.info-card {
+    padding: 25px;
+    border-radius: 18px;
+    background: white;
+    transition: all 0.3s ease;
+    border: 1px solid #e4dccc;
+}
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ------------------------------------------------
+   FAMOUS BOOKS PERFECT INFINITE SLIDER
+------------------------------------------------ */
+/* PERFECT INFINITE BOOK SLIDER + HOVER PAUSE */
+#famous {
+    padding: 60px 0;
+}
+
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.slider-track {
+    display: flex;
+    gap: 30px;
+    width: calc((200px + 30px) * 24); /* 12 books × 2 sets */
+    animation: scrollBooks 35s linear infinite;
+}
+
+/* HOVER PAUSE */
+.slider-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scrollBooks {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+/* BOOK CARD */
+.book-item {
+    width: 200px;
+    height: 300px;
+    flex: 0 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: 0.4s ease;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* NEW MODERN HOVER EFFECT */
+.book-item:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    border: 3px solid #c6a667;
+}
+
+.book-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+
+/* ------------------------------------------------
+   GALLERY
+------------------------------------------------ */
+/* PERFECT INFINITE GALLERY SLIDER */
+.gallery-wrapper {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.gallery-track {
+    display: flex;
+    gap: 30px;
+    width: calc((350px + 30px) * 8);
+    animation: galleryScroll 30s linear infinite;
+}
+
+/* STEP 3: Hover pause */
+.gallery-track:hover {
+    animation-play-state: paused;
+}
+
+
+@keyframes galleryScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+.gallery-track img {
+    width: 350px;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 15px;
+    flex-shrink: 0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+
+/* ------------------------------------------------
+   MEMBERSHIP PLANS
+------------------------------------------------ */
+.card {
+    border-radius: 22px !important;
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* ------------------------------------------------
+   FOOTER
+------------------------------------------------ */
+footer {
+    background: var(--primary);
+    padding: 15px;
+    text-align: center;
+    color: white;
+    margin-top: 30px;
+}
+
+/* ------------------------------------------------
+   RESPONSIVE
+------------------------------------------------ */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.6rem;
+    }
+    .book-item {
+        width: 180px;
+        height: 260px;
+    }
+    .gallery-track img {
+        width: 280px;
+        height: 180px;
+    }
+}
+.gallery-track:hover {
+    animation-play-state: paused;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ------------------------------------------------
+     NAVBAR
+------------------------------------------------ -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#hero">ViewPoint Library</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#famous">Famous Books</a></li>
+                <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+                <li class="nav-item"><a class="nav-link" href="#membership">Membership</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contactSection">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<!-- ------------------------------------------------
+     HERO
+------------------------------------------------ -->
+<section class="hero" id="hero">
+    <div class="container">
+        <h1 data-aos="fade-up">Where Stories Come Alive</h1>
+        <p data-aos="fade-up" data-aos-delay="150">
+            Explore, Learn & Grow — Your Perfect Reading Space Awaits.
+        </p>
+    </div>
+</section>
+
+
+
+<!-- ------------------------------------------------
+     ABOUT + FEATURES + CONTACT
+------------------------------------------------ -->
+<section class="container py-5" id="about">
+    <h2 class="section-title">Library Information</h2>
+
+    <div class="row g-4">
+
+        <!-- ABOUT -->
+        <div class="col-md-4">
+            <div class="info-card">
+                <h3><i class="bi bi-info-circle-fill text-warning me-2"></i>About Us</h3>
+                <p>
+                    ViewPoint Library offers a serene, air-conditioned study environment for students, readers, and professionals. 
+                    Discover a rich collection of books from competitive exams, literature, personal development, science and more.
+                </p>
+            </div>
+        </div>
+
+        <!-- FEATURES -->
+        <div class="col-md-4">
+            <div class="info-card">
+                <h3><i class="bi bi-stars text-warning me-2"></i>Features</h3>
+                <ul style="line-height: 2;">
+                    <li>Air-Conditioned Reading Hall</li>
+                    <li>Quiet Study Cabins</li>
+                    <li>Daily Newspapers & Magazines</li>
+                    <li>High-Speed Wi-Fi</li>
+                    <li>Comfortable Seating</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="col-md-4" id="contactSection">
+            <div class="info-card">
+                <h3><i class="bi bi-telephone-fill text-warning me-2"></i>Contact</h3>
+                <p><i class="bi bi-phone-fill text-danger me-2"></i>+91 9876543210</p>
+                <p><i class="bi bi-envelope-fill text-danger me-2"></i>viewpointlibrary@gmail.com</p>
+                <p><i class="bi bi-geo-alt-fill text-danger me-2"></i>Kozhikode, Kerala</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<!-- ------------------------------------------------
+     FAMOUS BOOKS SECTION
+------------------------------------------------ -->
+<section class="slider-container" id="famous">
+    <h2 class="section-title">World Famous Books</h2>
+
+    <div class="slider-track">
+
+        <!-- FIRST 12 BOOKS -->
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81YOuOGFCJL.jpg"></div><div class="book-back"><h5>Harry Potter</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/71UwSHSZRnS.jpg"></div><div class="book-back"><h5>The Alchemist</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81h2gWPTYJL.jpg"></div><div class="book-back"><h5>Sherlock Holmes</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81iqZ2HHD-L.jpg"></div><div class="book-back"><h5>The Hobbit</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/71g2ednj0JL.jpg"></div><div class="book-back"><h5>Subconscious Mind</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81eB+7+CkUL.jpg"></div><div class="book-back"><h5>Atomic Habits</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg"></div><div class="book-back"><h5>Fault in Our Stars</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81WcnNQ-TBL.jpg"></div><div class="book-back"><h5>Psychology of Money</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81OthjkJBuL.jpg"></div><div class="book-back"><h5>To Kill a Mockingbird</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81gepf1eMqL.jpg"></div><div class="book-back"><h5>Rich Dad Poor Dad</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81drfTT9ZfL.jpg"></div><div class="book-back"><h5>Think & Grow Rich</h5></div></div></div>
+
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81cpDaC56-L.jpg"></div><div class="book-back"><h5>Da Vinci Code</h5></div></div></div>
+
+        <!-- DUPLICATE 12 BOOKS (for infinite scrolling) -->
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81YOuOGFCJL.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/71UwSHSZRnS.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81h2gWPTYJL.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81iqZ2HHD-L.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/71g2ednj0JL.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81eB+7+CkUL.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81WcnNQ-TBL.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81OthjkJBuL.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81gepf1eMqL.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81drfTT9ZfL.jpg"></div></div></div>
+        <div class="book-item"><div class="book-inner"><div class="book-front"><img src="https://m.media-amazon.com/images/I/81cpDaC56-L.jpg"></div></div></div>
+
+    </div>
+</section>
+
+
+
+
+
+
+<!-- ------------------------------------------------
+     GALLERY
+------------------------------------------------ -->
+<section class="gallery" id="gallery">
+    <h2 class="section-title">Gallery</h2>
+
+    <div class="gallery-wrapper">
+        <div class="gallery-track">
+
+            <!-- ORIGINAL 4 IMAGES -->
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f">
+            <img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc">
+            <img src="https://images.unsplash.com/photo-1496104679561-38d3af2d4b59">
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?crop=entropy">
+
+            <!-- DUPLICATE 4 IMAGES FOR INFINITE LOOP -->
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f">
+            <img src="https://images.unsplash.com/photo-1519682337058-a94d519337bc">
+            <img src="https://images.unsplash.com/photo-1496104679561-38d3af2d4b59">
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?crop=entropy">
+
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- ------------------------------------------------
+     MEMBERSHIP PLANS
+------------------------------------------------ -->
+<section class="container py-5" id="membership">
+    <h2 class="section-title">Membership Plans</h2>
+
+    <div class="row g-4 justify-content-center">
+
+        <!-- BASIC -->
+        <div class="col-md-4">
+            <div class="card p-4 text-center shadow-sm">
+                <h4 class="fw-bold mb-3">Basic Plan</h4>
+                <h2 class="text-warning fw-bold">₹299 / month</h2>
+                <ul class="list-unstyled mt-3 mb-4" style="line-height: 2;">
+                    <li>✔ Access to Reading Hall</li>
+                    <li>✔ Borrow 2 Books</li>
+                    <li>✔ Free Newspapers</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PREMIUM -->
+        <div class="col-md-4">
+            <div class="card p-4 text-center shadow-sm border border-warning">
+                <h4 class="fw-bold mb-3">Premium Plan</h4>
+                <h2 class="text-warning fw-bold">₹499 / month</h2>
+                <ul class="list-unstyled mt-3 mb-4" style="line-height: 2;">
+                    <li>✔ All Basic Benefits</li>
+                    <li>✔ Borrow 5 Books</li>
+                    <li>✔ Free Wi-Fi</li>
+                    <li>✔ Priority Seating</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- VIP -->
+        <div class="col-md-4">
+            <div class="card p-4 text-center shadow-sm">
+                <h4 class="fw-bold mb-3">VIP Plan</h4>
+                <h2 class="text-warning fw-bold">₹999 / month</h2>
+                <ul class="list-unstyled mt-3 mb-4" style="line-height: 2;">
+                    <li>✔ Unlimited Borrowing</li>
+                    <li>✔ Premium Study Cabin</li>
+                    <li>✔ Free Coffee</li>
+                    <li>✔ Special Events Access</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<!-- ------------------------------------------------
+     FOOTER
+------------------------------------------------ -->
+<footer>
+    © 2025 ViewPoint Library | Designed by Jithesh
+</footer>
+
+
+<!-- SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init();</script>
+
+</body>
+</html>

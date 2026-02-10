@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}Return Book{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background:
+            linear-gradient(
+                rgba(20, 30, 48, 0.9),
+                rgba(36, 59, 85, 0.9)
+            ),
+            url("https://images.unsplash.com/photo-1512820790803-83ca734da794");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 60px auto;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.95);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        margin-bottom: 25px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        background: #1976d2;
+        color: #fff;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background: #125ea9;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    th {
+        background: #f5f7fa;
+        font-weight: 600;
+    }
+
+    .empty {
+        color: #d32f2f;
+        font-weight: 500;
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+</style>
+
+<div class="container">
+
+    <!-- 🔍 SEARCH READER -->
+    <div class="card">
+        <h3>📕 Return Book</h3>
+
+        <form method="GET">
+            <label><strong>Reader UUID or Phone</strong></label>
+            <input type="text"
+                   name="reader_key"
+                   value="{{ reader_key }}"
+                   placeholder="Enter UUID or phone number"
+                   required>
+            <button type="submit">Get Issued Books</button>
+        </form>
+    </div>
+
+    <!-- 👤 READER DETAILS -->
+    {% if reader %}
+    <div class="card">
+        <h4>Reader Details</h4>
+        <p>
+            <strong>Name:</strong> {{ reader.name }} <br>
+            <strong>Phone:</strong> {{ reader.phone }} <br>
+            <strong>Email:</strong> {{ reader.email }}
+        </p>
+    </div>
+    {% endif %}
+
+    <!-- 📚 ISSUED BOOKS -->
+    {% if issued_books %}
+    <div class="card">
+        <h4>Books Currently Issued</h4>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Book Title</th>
+                            <th>Issued Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for ib in issued_books %}
+                        <tr>
+                            <td>
+                                <input type="radio"
+                                       name="issue_id"
+                                       value="{{ ib.id }}"
+                                       required>
+                            </td>
+                            <td>{{ ib.book.title }}</td>
+                            <td>{{ ib.issue_date }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="submit">Return Selected Book</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- ℹ️ NO BOOKS -->
+    {% if reader and not issued_books %}
+        <div class="card">
+            <p class="empty">This reader has no books to return.</p>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

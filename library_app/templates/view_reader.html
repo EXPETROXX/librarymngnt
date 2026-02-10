@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% block title %}View Readers{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background:
+            linear-gradient(
+                rgba(20, 30, 48, 0.9),
+                rgba(36, 59, 85, 0.9)
+            ),
+            url("https://images.unsplash.com/photo-1512820790803-83ca734da794");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 60px auto;
+        padding: 0 15px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.95);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    /* -------- SEARCH -------- */
+    .search-box {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .search-box input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    .search-box button {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 6px;
+        background: #1976d2;
+        color: #fff;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    .search-box button:hover {
+        background: #125ea9;
+    }
+
+    /* -------- TABLE -------- */
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        min-width: 700px;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    th {
+        background-color: #f5f7fa;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background-color: #f0f4ff;
+    }
+
+    .empty {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+        h2 {
+            font-size: 20px;
+        }
+
+        .search-box {
+            flex-direction: column;
+        }
+
+        .search-box button {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <h2>Readers List</h2>
+
+        <!-- SEARCH -->
+        <form method="GET" class="search-box">
+            <input
+                type="text"
+                name="q"
+                value="{{ query }}"
+                placeholder="Search by name, phone, or email">
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- RESPONSIVE TABLE -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Library ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for i in reader_data %}
+                    <tr>
+                        <td>{{ i.library_id }}</td>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.email }}</td>
+                        <td>{{ i.phone }}</td>
+                        <td>{{ i.address }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="empty">
+                            No reader found
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<thead>
+<tr>
+    <th>Library ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Address</th>
+    <th>Action</th>
+</tr>
+</thead>
+
+<tbody>
+{% for i in reader_data %}
+<tr>
+    <td>{{ i.library_id }}</td>
+    <td>{{ i.name }}</td>
+    <td>{{ i.email }}</td>
+    <td>{{ i.phone }}</td>
+    <td>{{ i.address }}</td>
+    <td>
+        <a href="{% url 'reader_history' i.library_id %}">
+            View History
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>

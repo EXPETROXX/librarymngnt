@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Library Dashboard{% endblock %}
+
+{% block content %}
+<style>
+    /* Override background ONLY for dashboard page */
+    body {
+        background:
+            linear-gradient(
+                rgba(20, 30, 48, 0.85),
+                rgba(36, 59, 85, 0.85)
+            ),
+            url("https://images.unsplash.com/photo-1512820790803-83ca734da794");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 50px 20px;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #fff;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 34px;
+        letter-spacing: 1px;
+    }
+
+    .header p {
+        margin-top: 8px;
+        font-size: 16px;
+        opacity: 0.9;
+    }
+
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 22px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        text-decoration: none;
+        color: #333;
+        font-size: 18px;
+        font-weight: 500;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    }
+
+    /* ✅ IMPORTANT FIX:
+       Logout styling ONLY for dashboard card */
+    .card.logout {
+        background: #e53935;
+        color: #fff;
+    }
+
+    .card.logout:hover {
+        background: #c62828;
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h1>Library Management System</h1>
+        <p>Staff Dashboard</p>
+    </div>
+
+    <div class="dashboard">
+    <a href="{% url 'category' %}" class="card">Add Category</a>
+    <a href="{% url 'add_book' %}" class="card">Add Book</a>
+    <a href="{% url 'view_book' %}" class="card">View Books</a>
+    <a href="{% url 'add_reader' %}" class="card">Add Readers</a>
+    <a href="{% url 'view_reader' %}" class="card">View Readers</a>
+    <a href="{% url 'issue_book' %}" class="card">Issue Book</a>
+    <a href="{% url 'return_book' %}" class="card">Return Book</a>
+
+    <!-- ⭐ NEW -->
+    <a href="{% url 'active_readers' %}" class="card">
+        Active Readers
+    </a>
+
+    <a href="{% url 'staff_logout' %}" class="card logout">Logout</a>
+</div>
+
+</div>
+{% endblock %}

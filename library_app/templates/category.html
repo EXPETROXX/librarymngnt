@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Category Management{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background:
+            linear-gradient(
+                rgba(20, 30, 48, 0.9),
+                rgba(36, 59, 85, 0.9)
+            ),
+            url("https://images.unsplash.com/photo-1512820790803-83ca734da794");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 20px 10px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        margin-bottom: 30px;
+    }
+
+    h1, h2 {
+        margin-top: 0;
+        color: #222;
+    }
+
+    form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        background: #1976d2;
+        color: #fff;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #125ea9;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    table th, table td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #f5f7fa;
+        font-weight: 600;
+    }
+
+    table tr:hover {
+        background-color: #f0f4ff;
+    }
+
+    .delete-link {
+        color: #d32f2f;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .delete-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="container">
+
+    <div class="card">
+        <h1>Add Category</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="cat" placeholder="Enter category" required>
+            <button type="submit">Add</button>
+        </form>
+        <!-- ✅ messages handled globally in base.html -->
+    </div>
+
+    <div class="card">
+        <h2>All Categories</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>
+                        <a href="{% url 'delete_category' i.id %}"
+                           class="delete-link"
+                           onclick="return confirm('Are you sure you want to delete this category?')">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">No categories found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

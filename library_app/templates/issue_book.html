@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Issue Book{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background:
+            linear-gradient(
+                rgba(20, 30, 48, 0.9),
+                rgba(36, 59, 85, 0.9)
+            ),
+            url("https://images.unsplash.com/photo-1512820790803-83ca734da794");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 60px auto;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.95);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        margin-bottom: 25px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+
+    button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        background: #1976d2;
+        color: #fff;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background: #125ea9;
+    }
+
+    .list-item {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .list-item:last-child {
+        border-bottom: none;
+    }
+
+    .list-item a {
+        text-decoration: none;
+        color: #1976d2;
+        font-weight: 500;
+    }
+
+    .selected {
+        color: #388e3c;
+        font-weight: 600;
+    }
+
+    .issued {
+        font-size: 14px;
+        color: #444;
+        margin-top: 8px;
+    }
+</style>
+
+<div class="container">
+
+    <!-- 🔍 SEARCH READER -->
+    <div class="card">
+        <h3>1️⃣ Search Reader</h3>
+
+        <form method="GET">
+            <input type="text"
+                   name="reader_q"
+                   value="{{ reader_q }}"
+                   placeholder="Search by name, phone, or email">
+            <button type="submit">Search</button>
+        </form>
+
+        {% for r in readers %}
+            <div class="list-item">
+                <a href="?reader_id={{ r.library_id }}">
+                    {{ r.name }} | {{ r.phone }}
+                </a>
+            </div>
+        {% empty %}
+            {% if reader_q %}
+                <p>No reader found</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    {% if selected_reader %}
+    <!-- ✅ SELECTED READER -->
+    <div class="card">
+        <h3>Selected Reader</h3>
+        <p class="selected">
+            {{ selected_reader.name }} ({{ selected_reader.phone }})
+        </p>
+
+        {% if issued_books %}
+            <div class="issued">
+                <strong>Currently Issued Books:</strong>
+                <ul>
+                    {% for i in issued_books %}
+                        <li>{{ i.book.title }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- 🔍 SEARCH BOOK -->
+    <div class="card">
+        <h3>2️⃣ Search Book</h3>
+
+        <form method="GET">
+            <input type="hidden"
+                   name="reader_id"
+                   value="{{ selected_reader.library_id }}">
+
+            <input type="text"
+                   name="book_q"
+                   value="{{ book_q }}"
+                   placeholder="Search by title or book ID">
+
+            <button type="submit">Search</button>
+        </form>
+
+        {% for b in books %}
+            <div class="list-item">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           name="reader_id"
+                           value="{{ selected_reader.library_id }}">
+                    <input type="hidden"
+                           name="book_id"
+                           value="{{ b.id }}">
+
+                    <strong>{{ b.title }}</strong>
+                    <br>
+                    <small>{{ b.available_copies }} copies available</small>
+                    <br>
+
+                    <button type="submit">Issue Book</button>
+                </form>
+            </div>
+        {% empty %}
+            {% if book_q %}
+                <p>No books found</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

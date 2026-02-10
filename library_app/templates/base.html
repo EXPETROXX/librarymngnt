@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Library Management{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        /* ---------- GLOBAL ---------- */
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                linear-gradient(
+                    rgba(20, 30, 48, 0.9),
+                    rgba(36, 59, 85, 0.9)
+                ),
+                url("{% static 'library_app/images/books-bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* ---------- NAVBAR ---------- */
+        .navbar {
+            background-color: rgba(30, 41, 59, 0.95);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .nav-links a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 6px 4px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        /* Active page */
+        .nav-links a.active {
+            color: #ffffff;
+            font-weight: 600;
+            border-bottom: 2px solid #60a5fa;
+        }
+
+        /* Logout link (navbar only) */
+        .nav-links a.logout {
+            color: #f87171;
+            font-weight: 500;
+        }
+
+        /* ---------- PAGE CONTENT ---------- */
+        .page-content {
+            padding: 25px;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* ---------- MESSAGES ---------- */
+        .messages {
+            max-width: 900px;
+            margin: 0 auto 20px;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background-color: #22c55e;
+            color: #ffffff;
+        }
+
+        .message.error {
+            background-color: #ef4444;
+            color: #ffffff;
+        }
+
+        .message.info {
+            background-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        /* ---------- MOBILE ---------- */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background-color: rgba(30, 41, 59, 0.98);
+                flex-direction: column;
+                display: none;
+                padding: 15px;
+            }
+
+            .nav-links a {
+                padding: 10px 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+
+{% if user.is_authenticated and user.is_staff %}
+<!-- NAVBAR -->
+<div class="navbar">
+    <a href="{% url 'staff_page' %}" class="logo">Library System</a>
+
+    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+
+    <div class="nav-links" id="navLinks">
+        <a href="{% url 'staff_page' %}"
+            class="{% if request.resolver_match.url_name == 'staff_page' %}active{% endif %}">
+            Staff Page
+        </a>
+           
+        <a href="{% url 'category' %}"
+           class="{% if request.resolver_match.url_name == 'category' %}active{% endif %}">
+           Category
+        </a>
+
+        <a href="{% url 'add_book' %}"
+           class="{% if request.resolver_match.url_name == 'add_book' %}active{% endif %}">
+           Add Book
+        </a>
+
+        <a href="{% url 'view_book' %}"
+           class="{% if request.resolver_match.url_name == 'view_book' %}active{% endif %}">
+           View Books
+        </a>
+
+        <a href="{% url 'add_reader' %}"
+           class="{% if request.resolver_match.url_name == 'add_reader' %}active{% endif %}">
+           Add Reader
+        </a>
+
+        <a href="{% url 'view_reader' %}"
+           class="{% if request.resolver_match.url_name == 'view_reader' %}active{% endif %}">
+           View Readers
+        </a>
+
+        <a href="{% url 'issue_book' %}"
+           class="{% if request.resolver_match.url_name == 'issue_book' %}active{% endif %}">
+           Issue Book
+        </a>
+
+        <a href="{% url 'return_book' %}"
+           class="{% if request.resolver_match.url_name == 'return_book' %}active{% endif %}">
+           Return Book
+        </a>
+
+        <a href="{% url 'staff_logout' %}" class="logout">Logout</a>
+    </div>
+</div>
+{% endif %}
+
+<div class="page-content">
+
+    <!-- MESSAGES -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</div>
+
+<script>
+    function toggleMenu() {
+        document.getElementById("navLinks").classList.toggle("show");
+    }
+</script>
+
+</body>
+</html>
