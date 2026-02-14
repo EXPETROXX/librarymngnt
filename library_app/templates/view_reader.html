@@ -16,25 +16,24 @@
     }
 
     .container {
-        max-width: 1100px;
+        max-width: 1200px;
         margin: 60px auto;
         padding: 0 15px;
     }
 
     .card {
         background: rgba(255,255,255,0.95);
-        padding: 20px;
+        padding: 25px;
         border-radius: 12px;
         box-shadow: 0 6px 15px rgba(0,0,0,0.15);
     }
 
     h2 {
-        margin-top: 0;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
         text-align: center;
     }
 
-    /* -------- SEARCH -------- */
+    /* SEARCH */
     .search-box {
         display: flex;
         gap: 10px;
@@ -46,7 +45,6 @@
         padding: 10px;
         border-radius: 6px;
         border: 1px solid #ccc;
-        font-size: 15px;
     }
 
     .search-box button {
@@ -55,7 +53,6 @@
         border-radius: 6px;
         background: #1976d2;
         color: #fff;
-        font-size: 15px;
         cursor: pointer;
     }
 
@@ -63,32 +60,60 @@
         background: #125ea9;
     }
 
-    /* -------- TABLE -------- */
+    /* TABLE */
     .table-wrapper {
-        width: 100%;
         overflow-x: auto;
     }
 
     table {
         width: 100%;
-        min-width: 700px;
+        min-width: 900px;
         border-collapse: collapse;
     }
 
     th, td {
-        padding: 10px;
+        padding: 12px;
         border-bottom: 1px solid #ddd;
         text-align: left;
         font-size: 14px;
     }
 
     th {
-        background-color: #f5f7fa;
+        background: #f5f7fa;
         font-weight: 600;
     }
 
     tr:hover {
-        background-color: #f0f4ff;
+        background: #f0f4ff;
+    }
+
+    .badge {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+    }
+
+    .basic { background: #6c757d; }
+    .premium { background: #0d6efd; }
+    .vip { background: #dc3545; }
+
+    .action-btn {
+        padding: 6px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 13px;
+        color: white;
+        margin-right: 5px;
+    }
+
+    .history-btn {
+        background: #198754;
+    }
+
+    .change-btn {
+        background: #fd7e14;
     }
 
     .empty {
@@ -98,10 +123,6 @@
     }
 
     @media (max-width: 600px) {
-        h2 {
-            font-size: 20px;
-        }
-
         .search-box {
             flex-direction: column;
         }
@@ -118,15 +139,14 @@
 
         <!-- SEARCH -->
         <form method="GET" class="search-box">
-            <input
-                type="text"
-                name="q"
-                value="{{ query }}"
-                placeholder="Search by name, phone, or email">
+            <input type="text"
+                   name="q"
+                   value="{{ query }}"
+                   placeholder="Search by name, phone, or email">
             <button type="submit">Search</button>
         </form>
 
-        <!-- RESPONSIVE TABLE -->
+        <!-- TABLE -->
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -135,7 +155,8 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Address</th>
+                        <th>Membership</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
@@ -146,11 +167,34 @@
                         <td>{{ i.name }}</td>
                         <td>{{ i.email }}</td>
                         <td>{{ i.phone }}</td>
-                        <td>{{ i.address }}</td>
+
+                        <!-- MEMBERSHIP BADGE -->
+                        <td>
+                            {% if i.membership == "BASIC" %}
+                                <span class="badge basic">Basic</span>
+                            {% elif i.membership == "PREMIUM" %}
+                                <span class="badge premium">Premium</span>
+                            {% else %}
+                                <span class="badge vip">VIP</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- ACTION BUTTONS -->
+                        <td>
+                            <a href="{% url 'reader_history' i.library_id %}"
+                               class="action-btn history-btn">
+                               View History
+                            </a>
+
+                            <a href="{% url 'change_membership' i.library_id %}"
+                               class="action-btn change-btn">
+                               Change Plan
+                            </a>
+                        </td>
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="5" class="empty">
+                        <td colspan="6" class="empty">
                             No reader found
                         </td>
                     </tr>
@@ -161,30 +205,3 @@
     </div>
 </div>
 {% endblock %}
-<thead>
-<tr>
-    <th>Library ID</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Phone</th>
-    <th>Address</th>
-    <th>Action</th>
-</tr>
-</thead>
-
-<tbody>
-{% for i in reader_data %}
-<tr>
-    <td>{{ i.library_id }}</td>
-    <td>{{ i.name }}</td>
-    <td>{{ i.email }}</td>
-    <td>{{ i.phone }}</td>
-    <td>{{ i.address }}</td>
-    <td>
-        <a href="{% url 'reader_history' i.library_id %}">
-            View History
-        </a>
-    </td>
-</tr>
-{% endfor %}
-</tbody>

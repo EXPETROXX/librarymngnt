@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.utils import timezone
 from django.db import transaction
 from uuid import UUID
+from django.views.decorators.cache import never_cache
+
 
 from .models import Category, Book, Reader, IssueBook
 
@@ -53,6 +55,7 @@ def login_view(request):
 
 # ---------------- LOGOUT ----------------
 @login_required(login_url='/login/')
+@never_cache
 def staff_logout(request):
     logout(request)
     request.session.flush()
@@ -61,6 +64,7 @@ def staff_logout(request):
 
 # ---------------- STAFF PAGE ----------------
 @login_required(login_url='/login/')
+@never_cache
 def staff_page(request):
     if not request.user.is_staff:
         return redirect('login')
@@ -69,6 +73,7 @@ def staff_page(request):
 
 # ---------------- CATEGORY ----------------
 @login_required(login_url='/login/')
+@never_cache
 def category(request):
     if not request.user.is_staff:
         return redirect('login')
@@ -100,6 +105,7 @@ def delete_category(request, id):
 
 # ---------------- ADD BOOK ----------------
 @login_required(login_url='/login/')
+@never_cache
 def add_book(request):
     if not request.user.is_staff:
         return redirect('login')
@@ -135,6 +141,7 @@ def add_book(request):
 
 # ---------------- VIEW BOOK ----------------
 @login_required(login_url='/login/')
+@never_cache
 def view_book(request):
     if not request.user.is_staff:
         return redirect('login')
@@ -176,6 +183,7 @@ def view_book(request):
 
 # ---------------- ADD READER ----------------
 @login_required(login_url='/login/')
+@never_cache
 def add_reader(request):
     if not request.user.is_staff:
         return redirect('login')
@@ -209,6 +217,7 @@ def add_reader(request):
 
 # ---------------- VIEW READER ----------------
 @login_required(login_url='/login/')
+@never_cache
 def view_reader(request):
     query = request.GET.get('q')
     readers = Reader.objects.all()
@@ -228,6 +237,7 @@ def view_reader(request):
 
 # ---------------- ISSUE BOOK ----------------
 @login_required(login_url='/login/')
+@never_cache
 def issue_book(request):
     if not request.user.is_staff:
         return redirect('login')
@@ -299,6 +309,7 @@ def issue_book(request):
 
 # ---------------- CHANGE MEMBERSHIP ----------------
 @login_required(login_url='/login/')
+@never_cache
 def change_membership(request, reader_id):
     if not request.user.is_staff:
         return redirect('login')
@@ -316,6 +327,7 @@ def change_membership(request, reader_id):
 
 # ---------------- AJAX READER SEARCH ----------------
 @login_required(login_url='/login/')
+@never_cache
 def reader_search(request):
     q = request.GET.get('q', '')
     readers = Reader.objects.filter(
@@ -332,6 +344,7 @@ def reader_search(request):
 
 # ---------------- RETURN BOOK ----------------
 @login_required(login_url='/login/')
+@never_cache
 def return_book(request):
     if not request.user.is_staff:
         return redirect('login')
@@ -382,6 +395,7 @@ def return_book(request):
 
 #----------------- READER HISTORY ----------------
 @login_required(login_url='/login/')
+@never_cache
 def reader_history(request, reader_id):
     if not request.user.is_staff:
         return redirect('login')
@@ -399,6 +413,7 @@ def reader_history(request, reader_id):
 
 #----------------- ACTIVE READERS ----------------
 @login_required(login_url='/login/')
+@never_cache
 def active_readers(request):
     if not request.user.is_staff:
         return redirect('login')

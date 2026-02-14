@@ -1,9 +1,14 @@
 from django.contrib import admin
 from django.urls import path
 from library_app import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home,name='home'),
+    path('change-membership/<uuid:reader_id>/', views.change_membership, name='change_membership'),
+
 
     path('login/', views.login_view, name='login'),
     path('staff_logout/', views.staff_logout, name='staff_logout'),
@@ -28,3 +33,5 @@ urlpatterns = [
     path('active-readers/', views.active_readers, name='active_readers'),
 
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
